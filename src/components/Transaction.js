@@ -1,4 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
+import { GlobalContext } from '../store/GlobalContext';
+
 
 // function moneyFormatter(num) {
 //     let p = num.toFixed(2).split('.');
@@ -18,8 +20,11 @@ import React, { Fragment } from 'react';
 
 
 
-const Transaction = (props) => {
-    const { transaction } = props;
+const Transaction = ({ transaction }) => {
+
+    // get emoveItem key that holds the removeItemHandler from context api
+    const { removeItem } = useContext(GlobalContext);
+
 
 
     const sign = transaction.amount < 0 ? '-' : '+';
@@ -29,7 +34,10 @@ const Transaction = (props) => {
     return (
         <Fragment>
             <li className={transaction.amount < 0 ? 'minus' : 'plus'}>
-                {transaction.text} <span>{sign}{Math.abs(transaction.amount)}</span><button className="delete-btn">x</button>
+                {transaction.text} <span>{sign}{Math.abs(transaction.amount)}</span>
+                <button
+                    onClick={() => removeItem(transaction.id)}
+                    className="delete-btn">x</button>
             </li>
 
 
